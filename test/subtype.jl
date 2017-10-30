@@ -1229,3 +1229,8 @@ struct A23764{T, N, S} <: AbstractArray{Union{T, S}, N}; end
 struct A23764_2{T, N, S} <: AbstractArray{Union{Ref{T}, S}, N}; end
 @test Tuple{A23764_2{T, 1, Void} where T} <: Tuple{AbstractArray{T,N}} where {T,N}
 @test Tuple{A23764_2{T, 1, Void} where T} <: Tuple{AbstractArray{T,N} where {T,N}}
+
+# PR #24399
+let (t, e) = intersection_env(Tuple{Union{Int,Int8}}, Tuple{T} where T)
+    @test e[1] isa TypeVar
+end
