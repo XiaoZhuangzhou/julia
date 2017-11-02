@@ -12,7 +12,6 @@ function convert(::Type{UInt32}, c::Char)
 end
 
 function convert(::Type{Char}, u::UInt32)
-    u < 0x00200000 || throw(InexactError())
     c = (u & 0x3f) | ((u << 2) & 0x3f00) | ((u << 4) & 0x3f0000) | ((u << 6) & 0x3f000000)
     reinterpret(Char, ifelse(u <= 0x7f, u,
         c | ifelse(u <= 0x000007ff, 0x0000c080,
