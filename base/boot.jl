@@ -419,7 +419,7 @@ function write(io::IO, x::String)
 end
 
 show(io::IO, @nospecialize x) = ccall(:jl_static_show, Void, (Ptr{Void}, Any), io_pointer(io), x)
-print(io::IO, x::Char) = ccall(:jl_uv_putc, Void, (Ptr{Void}, UInt32), io_pointer(io), x)
+print(io::IO, x::Char) = ccall(:jl_uv_putc, Void, (Ptr{Void}, Char), io_pointer(io), x)
 print(io::IO, x::String) = (write(io, x); nothing)
 print(io::IO, @nospecialize x) = show(io, x)
 print(io::IO, @nospecialize(x), @nospecialize a...) = (print(io, x); print(io, a...))
