@@ -336,12 +336,12 @@ function read(s::IOStream, nb::Integer; all::Bool=true)
 end
 
 ## Character streams ##
-const _chtmp = Ref{Char}()
+const _chtmp = Ref{UInt32}()
 function peekchar(s::IOStream)
-    if ccall(:ios_peekutf8, Cint, (Ptr{Void}, Ptr{Char}), s, _chtmp) < 0
+    if ccall(:ios_peekutf8, Cint, (Ptr{Void}, Ptr{UInt32}), s, _chtmp) < 0
         return typemax(Char)
     end
-    return _chtmp[]
+    return Char(_chtmp[])
 end
 
 function peek(s::IOStream)
